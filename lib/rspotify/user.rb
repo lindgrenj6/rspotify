@@ -508,5 +508,19 @@ module RSpotify
       return response if RSpotify.raw_response
       response['devices'].map { |i| Device.new i }
     end
+
+    def queue(tracks)
+      if tracks.is_a? Array
+        tracks.each do |track|
+          url = "me/player/queue?uri=#{track.uri}"
+          User.oauth_post(@id, url)
+        end
+      else
+        url = "me/player/queue?uri=#{tracks.uri}"
+        User.oauth_post(@id, url)
+      end
+
+      tracks
+    end
   end
 end
